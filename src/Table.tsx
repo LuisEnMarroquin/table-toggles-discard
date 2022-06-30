@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { cloneDeep } from "lodash";
 import CheckIcon from "@mui/icons-material/Check";
 import { Box, Grid, Button, Checkbox } from "@mui/material";
 
@@ -36,14 +37,8 @@ const tableStyles = {
 export default function Table({ propsData }: { propsData: typeof typedData }) {
   const [editMode, setEditMode] = useState(false);
 
-  const [originalValues, setOriginalValues] = useState({ ...propsData });
-  const [modifiedValues, setModifiedValues] = useState({ ...propsData });
-
-  useEffect(() => {
-    console.log("running useEffect");
-    setOriginalValues({ ...propsData });
-    setModifiedValues({ ...propsData });
-  }, [propsData]);
+  const [originalValues, setOriginalValues] = useState(cloneDeep(propsData));
+  const [modifiedValues, setModifiedValues] = useState(cloneDeep(propsData));
 
   const whichCourse = editMode ? modifiedValues : originalValues;
   const keyComplement = editMode ? "yes" : "not";
@@ -112,7 +107,7 @@ export default function Table({ propsData }: { propsData: typeof typedData }) {
                                 if (isEnabled) {
                                   currentValue.schools[currentIndex].licensedproducts = currentValue.schools[currentIndex].licensedproducts.filter((value) => value !== thisBundle.id);
                                 } else {
-                                  currentValue.schools[currentIndex].licensedproducts.push(thisBundle.id);
+                                  currentValue.schools[currentIndex].licensedproducts = [...currentValue.schools[currentIndex].licensedproducts, thisBundle.id];
                                 }
                                 return { ...currentValue };
                               })
