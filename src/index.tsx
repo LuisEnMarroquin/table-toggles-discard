@@ -6,7 +6,7 @@ import App from "./App";
 
 load({
   google: {
-    families: ["Helvetica Neue"],
+    families: ["Inter", "Helvetica Neue"],
   },
 });
 
